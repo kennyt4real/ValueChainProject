@@ -1,0 +1,154 @@
+﻿@model ValueChainModel.OffTaker
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OffTaker</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NHFNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NHFNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrganizationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrganizationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GradeLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GradeLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HouseChoice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HouseChoice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoanApplicable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoanApplicable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Repayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Repayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DTI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DTI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NetIncome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NetIncome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GrossIncome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GrossIncome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tenor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tenor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeAffordability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomeAffordability)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Equity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Equity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Matched)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Matched)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OffTakerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

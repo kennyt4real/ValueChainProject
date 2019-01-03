@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ValueChainModel.OffTaker>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NHFNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrganizationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GradeLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HouseChoice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoanApplicable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Repayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DTI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetIncome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GrossIncome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tenor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeAffordability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Matched)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NHFNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrganizationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GradeLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HouseChoice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoanApplicable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Repayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DTI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NetIncome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GrossIncome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tenor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeAffordability)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Matched)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.OffTakerId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OffTakerId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OffTakerId })
+        </td>
+    </tr>
+}
+
+</table>
