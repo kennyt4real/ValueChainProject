@@ -1,0 +1,24 @@
+﻿<a class="btn btn-primary" href="~/ExcelUploadTemplate/OffTakerUpload.xlsx"> Download Excel Template</a>
+<br />
+<br />
+
+@using (Html.BeginForm("UploadOffTakers", "OffTakers", FormMethod.Post, new { enctype = "multipart/form-data", id = "excelform" }))
+{
+    @Html.Raw(ViewBag.Error)
+    <span>Upload Offtakers Excel File </span> <input type="file" name="excelfile" />
+    <br />
+    <br />
+    <input id="btnsubmitExcel" type="submit" value="Upload" class="btn btn-lg btn-primary" />
+}
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#excelform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>

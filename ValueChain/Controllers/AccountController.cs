@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -72,6 +73,8 @@ namespace ValueChain.Controllers
             {
                 return View(model);
             }
+            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(c =>
+                             c.Email.ToUpper().Equals(model.Email.ToUpper().Trim()));
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -79,7 +82,7 @@ namespace ValueChain.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return CustomDashboard(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -89,6 +92,19 @@ namespace ValueChain.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+        [AllowAnonymous]
+        public ActionResult CustomDashboard(string returnUrl)
+        {
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+            if (User.IsInRole(RoleName.Admin))
+            {
+                return RedirectToAction("Index", "OffTakers");
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //

@@ -2,128 +2,147 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NHFNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrganizationName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GradeLevel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Age)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HouseChoice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LoanApplicable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Repayment)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DTI)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NetIncome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GrossIncome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tenor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HomeAffordability)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Equity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Matched)
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="header">
+                <h2>Offtakers Table <small>Off takers List</small> </h2>
+                <a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-user"></i>&nbsp;ADD OFFTAKER</a>
+                <a href="#" onclick="Upload()" class="btn btn-primary"><i class="icon-docs"></i>&nbsp;UPLOAD OFFTAKERS</a>
+            </div>
+            <div class="body">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NHFNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrganizationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GradeLevel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Age)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HouseChoice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LoanApplicable)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Repayment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DTI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NetIncome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GrossIncome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tenor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HomeAffordability)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Equity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Matched)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OffTakerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OffTakerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OffTakerId })
-        </td>
-    </tr>
+                <div class="table-responsive">
+                    <table id="Jdatatable" class="table table-bordered table-striped table-hover dataTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone Number</th>
+                                <th>House Choice</th>
+                                <th>Loan Applicable</th>
+                                <th>Home Affordability</th>
+                                <th>Gross Income</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Offtaker</h4>
+            </div>
+            <div id="myModalDivBody" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button id="btnsubmit" type="button" class="btn btn-primary">SAVE CHANGES</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
 
-</table>
+@*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/OffTakers/GetIndex",
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "FullName", "autoWidth": true },
+                { "data": "PhoneNumber", "autoWidth": true },
+                { "data": "HouseChoice", "autoWidth": true },
+                { "data": "LoanApplicable", "autoWidth": true },
+                { "data": "HomeAffordability", "autoWidth": true },
+                { "data": "GrossIncome", "autoWidth": true },
+                {
+                    "data": "OffTakerId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" data-toggle="modal" data-target="#actionsList"  onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ],
+            //dom: '<"html5buttons"B>lTfgitp',
+            //buttons: [
+            //    { extend: 'copy' },
+            //    { extend: 'csv' },
+
+            //    {
+            //        extend: 'print',
+            //        customize: function (win) {
+            //            $(win.document.body).addClass('white-bg');
+            //            $(win.document.body).css('font-size', '10px');
+
+            //            $(win.document.body).find('table')
+            //                .addClass('compact')
+            //                .css('font-size', 'inherit');
+            //        }
+            //    }
+            //]
+        });
+
+    });
+    function Edit(offTakerId) {
+        var url = "/Drugs/Save?id=" + drugId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#defaultModal').modal('show');
+            });
+    }
+    function Delete(offTakerId) {
+        var url = "/Drugs/Delete?id=" + drugId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#defaultModal').modal("show");
+            });
+    }
+    function myFunction() {
+        var url = "/OffTakers/Create";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#defaultModal').modal("show");
+            });
+    }
+    function Upload() {
+        var url = "/OffTakers/UploadOffTakers";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#defaultModal').modal('show');
+            });
+    };
+
+</script>

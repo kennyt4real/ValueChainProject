@@ -19,7 +19,7 @@ namespace ValueChainModel
         public int Rate { get; set; }
         public decimal LoanApplicable { get; set; }
         public decimal Repayment { get; set; }
-        public float DTI { get; set; }
+        public double DTI { get; set; }
         public decimal NetIncome { get; set; }
         public decimal GrossIncome { get; set; }
         public int Tenor { get; set; }
