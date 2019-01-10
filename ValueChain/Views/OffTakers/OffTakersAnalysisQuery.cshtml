@@ -1,0 +1,37 @@
+﻿@model ValueChain.Models.ReportGenerationVm
+@{
+    ViewBag.Title = "OffTakersAnalysisQuery";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="card">
+        <div class="text-center">
+            <div class="header">
+                <h2>Generate Report</h2>
+                <p class="lead"><strong>Select an organization to generata it's report.</strong></p>
+            </div>
+            <div class="body">
+                <div class="col-md-offset-3 col-md-4">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.ValidationMessageFor(m => m.OrganizationName, "", new { @class = "text-danger" })
+                        <div class="input-group mb-3">
+                            @Html.TextBox("OrganizationName", null, new { @class = "form-control", @placeholder = "Organization Name..." })
+                            <div class="input-group-append">
+                                <button class="input-group-text" for="inputGroupSelect02">Submit</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@*<div>
+        @Html.Partial("_OffTakersAnalysisPartial")
+    </div>*@

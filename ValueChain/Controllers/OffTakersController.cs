@@ -15,6 +15,7 @@ using ValueChainModel;
 
 namespace ValueChain.Controllers
 {
+    [Authorize]
     public class OffTakersController : BaseController       
     {
 
@@ -56,11 +57,69 @@ namespace ValueChain.Controllers
             return View(offTaker);
         }
 
-        // GET: OffTakers/Create
-        public PartialViewResult Create()
+        // GET: OffTakers/Save
+        public PartialViewResult Save(int id)
         {
-            return PartialView();
+            var model = _db.OffTakers.Find(id);
+            if (model == null)
+            {
+                model = new OffTaker();
+            }
+            return PartialView(model);
         }
+
+        // GET: OffTakers/Save
+
+        // POST: OffTakers/Save
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Save(OffTaker model)
+        {
+            bool response = false;
+            string message = string.Empty;
+            if (ModelState.IsValid)
+            {
+                if (model.OffTakerId > 0)
+                {
+                    var offTaker = _db.OffTakers.FirstOrDefault(x => x.OffTakerId.Equals(model.OffTakerId));
+                    offTaker.FullName = model.FullName;
+                    offTaker.Age = model.Age;
+                    offTaker.NHFNumber = model.NHFNumber;
+                    offTaker.OrganizationName = model.OrganizationName;
+                    offTaker.GradeLevel = model.GradeLevel;
+                    offTaker.HouseChoice = model.HouseChoice;
+                    offTaker.PhoneNumber = model.PhoneNumber;
+                    offTaker.Rate = model.Rate;
+                    offTaker.LoanApplicable = model.LoanApplicable;
+                    offTaker.Repayment = model.Repayment;
+                    offTaker.DTI = model.DTI;
+                    offTaker.NetIncome = model.NetIncome;
+                    offTaker.GrossIncome = model.GrossIncome;
+                    offTaker.Tenor = model.Tenor;
+                    offTaker.HomeAffordability = model.HomeAffordability;
+                    offTaker.Equity = model.Equity;
+                    offTaker.Matched = model.Matched;
+
+                    _db.Entry(model).State = EntityState.Modified;
+                    message = $"{model.FullName} Updated Successfully";
+                }
+                else
+                {
+                    _db.OffTakers.Add(model);
+                    message = $"{model.FullName} Added Successfully";
+                }
+                await _db.SaveChangesAsync();
+                if (response)
+                {
+                    return Json(new { status = true, message = message });
+                }
+            }
+            message = $"Something went wrong";
+            return Json(new { status = false, message = message });
+        }
+
 
         // POST: OffTakers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -136,34 +195,76 @@ namespace ValueChain.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult OffTakersAnalysis()
+        [HttpGet]
+        public ActionResult OffTakersAnalysisQuery()
         {
-            var offTakers = _db.OffTakers.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OffTakersAnalysisQuery(ReportGenerationVm organization)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            if (string.IsNullOrEmpty(organization.OrganizationName))
+            {
+                return View();
+            }
+            var organizationName = organization.OrganizationName.ToUpper();
+            var offTakers = _db.OffTakers.Where(x=>x.OrganizationName.Trim().ToUpper().Equals(organizationName.Trim().ToUpper())).ToList();
+            var studioApartmentEquity = offTakers.Where(x => x.HouseChoice.Equals(HouseType.StudioApt) && x.Equity > 0).Count();
+            var studioApartment = offTakers.Where(x => x.HouseChoice.Equals(HouseType.StudioApt)).Count();
+            var oneBedRm = offTakers.Where(x => x.HouseChoice.Equals(HouseType.OneBedRm)).Count();
+            var twoBedRm = offTakers.Where(x => x.HouseChoice.Equals(HouseType.TwoBedRm)).Count();
+            var threeBedRm = offTakers.Where(x => x.HouseChoice.Equals(HouseType.ThreeBedRm)).Count();
+            var fourBedRm = offTakers.Where(x => x.HouseChoice.Equals(HouseType.FourBedRm)).Count();
+            var choiceAffordabilityStudioEquity = offTakers.Where(x => x.Equity > 0 && (x.HomeAffordability + x.Equity) < 3500000  && x.HouseChoice.Equals(HouseType.StudioApt)).Count();
+            var choiceAffordabilityStudio = offTakers.Where(x => x.HomeAffordability < 3500000 && (x.HomeAffordability < 4300000) 
+                                            && x.HouseChoice.Equals(HouseType.StudioApt)).Count();
+            var choiceAffordabilityOneBedRm = offTakers.Where(x => x.HomeAffordability >= 4300000 && (x.HomeAffordability < 8300000) 
+                                            && x.HouseChoice.Equals(HouseType.OneBedRm)).Count();
+            var choiceAffordabilityTwoBedRm = offTakers.Where(x => x.HomeAffordability >= 8300000
+                                            && (x.HomeAffordability < 9100000) && x.HouseChoice.Equals(HouseType.TwoBedRm)).Count();
+            var choiceAffordabilityThreeBedRm = offTakers.Where(x => x.HomeAffordability >= 9100000 && (x.HomeAffordability < 15000000)
+                                             && x.HouseChoice.Equals(HouseType.ThreeBedRm)).Count();
+            var choiceAffordabilityFourBedRm = offTakers.Where(x => x.HomeAffordability >= 15000000 && x.HouseChoice.Equals(HouseType.FourBedRm)).Count();
+            var pqStudioEquity = offTakers.Where(x => x.HomeAffordability >= 0 && x.HomeAffordability < 3000000).Count();
+            var pqStudioApt = offTakers.Where(x => x.HomeAffordability >= 3000000 && x.HomeAffordability < 4000000).Count();
+            var pqOneBedRm = offTakers.Where(x => x.HomeAffordability >= 4000000 && x.HomeAffordability < 6000000).Count();
+            var pqTwoBedRm = offTakers.Where(x => x.HomeAffordability >= 6000000 && x.HomeAffordability < 8000000).Count();
+            var pqThreeBedRm = offTakers.Where(x => x.HomeAffordability >= 8000000 && x.HomeAffordability < 12000000).Count();
+            var pqFourBedRm = offTakers.Where(x => x.HomeAffordability >= 15000000).Count();
+            var pqTotal = pqStudioEquity + pqStudioApt + pqOneBedRm + pqTwoBedRm + pqThreeBedRm + pqFourBedRm;
             var offTakersAnalysisVm = new OffTakersAnalysisVm
             {
                 OrganizationCode = "VON",
-                OrganizationName = "Voice Of Nigeria",
-                StudioAptEquityCount = offTakers.Where(x => x.HouseChoice.Contains(HouseType.StudioAptEquity)).Count(),
-                StudioAptCount = offTakers.Where(x => x.HouseChoice.Contains(HouseType.StudioApt)).Count(),
-                OneBedRmCount = offTakers.Where(x => x.HouseChoice.Contains(HouseType.OneBedRm)).Count(),
-                TwoBedRmCount = offTakers.Where(x => x.HouseChoice.Contains(HouseType.TwoBedRm)).Count(),
-                ThreeBedRmCount = offTakers.Where(x => x.HouseChoice.Contains(HouseType.ThreeBedRm)).Count(),
-                FourBedRmDuplexCount = offTakers.Where(x => x.HouseChoice.Contains(HouseType.FourBedRm)).Count(),
-                ChoiceAffordabilityMatchStudioAptEquityCount = offTakers.Where(x => x.HomeAffordability < 3000000).Count(),
-                ChoiceAffordabilityMatchStudioAptCount = offTakers.Where(x => x.HomeAffordability >= 3000000 && (x.HomeAffordability < 4000000)).Count(),
-                ChoiceAffordabilityMatchOneBedRmCount = offTakers.Where(x => x.HomeAffordability >= 4000000 && (x.HomeAffordability < 6000000)).Count(),
-                ChoiceAffordabilityMatchTwoBedRmCount = offTakers.Where(x => x.HomeAffordability >= 6000000 && (x.HomeAffordability < 8000000)).Count(),
-                ChoiceAffordabilityMatchThreeBedRmCount = offTakers.Where(x => x.HomeAffordability >= 8000000 && (x.HomeAffordability < 12000000)).Count(),
-                ChoiceAffordabilityMatchFourBedDuplexCount = offTakers.Where(x => x.HomeAffordability > 15000000).Count(),
-                ChoiceAffordabilityMatchTotalCount = offTakers.Where(x => x.HomeAffordability < 3000000).Count() + 
-                offTakers.Where(x => x.HomeAffordability >= 3000000 && (x.HomeAffordability < 4000000)).Count() + 
-                offTakers.Where(x => x.HomeAffordability >= 4000000 && (x.HomeAffordability < 6000000)).Count() + 
-                offTakers.Where(x => x.HomeAffordability >= 6000000 && (x.HomeAffordability < 8000000)).Count() +
-                offTakers.Where(x => x.HomeAffordability >= 8000000 && (x.HomeAffordability < 12000000)).Count() +
-                offTakers.Where(x => x.HomeAffordability > 15000000).Count()
+                OrganizationName = organizationName,
+                StudioAptEquityCount = studioApartmentEquity,
+                StudioAptCount = studioApartment,
+                OneBedRmCount = oneBedRm,
+                TwoBedRmCount = twoBedRm,
+                ThreeBedRmCount = threeBedRm,
+                FourBedRmDuplexCount = fourBedRm,
+                PQStudioAptEquityCount=pqStudioEquity,
+                PQStudioAptCount=pqStudioApt,
+                PQOneBedRmCount=pqOneBedRm,
+                PQTwoBedRmCount=pqTwoBedRm,
+                PQThreeBedRmCount=pqThreeBedRm,
+                PQFourBedRmDuplexCount=pqFourBedRm,
+                ChoiceAffordabilityMatchStudioAptEquityCount = choiceAffordabilityStudioEquity,
+                ChoiceAffordabilityMatchStudioAptCount = choiceAffordabilityStudio,
+                ChoiceAffordabilityMatchOneBedRmCount = choiceAffordabilityOneBedRm,
+                ChoiceAffordabilityMatchTwoBedRmCount = choiceAffordabilityTwoBedRm,
+                ChoiceAffordabilityMatchThreeBedRmCount = choiceAffordabilityThreeBedRm,
+                ChoiceAffordabilityMatchFourBedDuplexCount = choiceAffordabilityFourBedRm,
+                ChoiceAffordabilityMatchTotalCount = choiceAffordabilityStudioEquity + choiceAffordabilityStudio + choiceAffordabilityOneBedRm + choiceAffordabilityTwoBedRm + choiceAffordabilityThreeBedRm + choiceAffordabilityFourBedRm,
+                TotalCount = offTakers.Count(),
+                PQTotalCount=pqTotal
             };
 
-            return View(offTakersAnalysisVm);
+            return View("OffTakersAnalysis",offTakersAnalysisVm);
         }
 
         public PartialViewResult UploadOffTakers()
@@ -218,7 +319,7 @@ namespace ValueChain.Controllers
                     for (int row = 2; row <= noOfRow; row++)
                     {
                         var fullName = workSheet.Cells[row, 1].Value.ToString().Trim();
-                        var phoneNumber = workSheet.Cells[row, 2].Value.ToString().Trim();
+                        var foneNumber = workSheet.Cells[row, 2].Value.ToString().Trim();
                         var nhf = workSheet.Cells[row, 3].Value.ToString().Trim();
                         var organizationName = workSheet.Cells[row, 4].Value.ToString().Trim();
                         var gradeLevel = workSheet.Cells[row, 5].Value.ToString().Trim();
@@ -241,14 +342,24 @@ namespace ValueChain.Controllers
                         {
                             matched = true;
                         }
-                        //if (dateOfBirth.Trim().Equals("."))
-                        //{
-                        //    dob = null;
-                        //}
-                        //else
-                        //{
-                        //    dob = Convert.ToDateTime(dateOfBirth);
-                        //}
+                        var phoneNumber = string.Empty;
+                        if (foneNumber[0] == '2')
+                        {
+                            phoneNumber  = "+" + foneNumber;
+                        }
+                        else
+                        {
+                            phoneNumber = "+234" + foneNumber;
+                        }
+                        if (organizationName == "*")
+                        {
+                            organizationName = null;
+                        }
+                        if (nhf == "*")
+                        {
+                            nhf = null;
+                        }
+
                         try
                         {
                             var model = new OffTaker()

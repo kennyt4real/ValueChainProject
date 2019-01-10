@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="header text-center">
-                    <h2>VOICE OF NIGERIA(VON)/VALUE CHAIN PROJECT CONSULTANTS LTD (VCPC) PARTNERSHIP</h2>
+                    <h2>@Model.OrganizationName /VALUE CHAIN PROJECT CONSULTANTS LTD (VCPC) PARTNERSHIP</h2>
                     <p> <span class="text-danger">VALUE CHAIN MARKET AFFORDABILITY PLATFORM, VC-MAP, OFFTAKERS AFFORDABILITY CUMMULATIVE REPORT OF STAFF OF VON - GROUP 1</span></p>
                 </div>
                 <div class="row">
@@ -50,7 +50,17 @@
                                                 <td>4 BEDROOM</td>
                                                 <td>@Model.FourBedRmDuplexCount</td>
                                             </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
+                                        <thead>
+                                            <tr>
+                                                <th>TOTAL COUNT</th>
+                                                <th>@Model.TotalCount</th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                             </div>
@@ -69,29 +79,39 @@
                                     <tbody>
                                         <tr>
                                             <td>0 - 3M</td>
-                                            <td>@Model.StudioAptEquityCount</td>
+                                            <td>@Model.PQStudioAptEquityCount</td>
                                         </tr>
                                         <tr>
                                             <td>3M - 4M</td>
-                                            <td>@Model.StudioAptCount</td>
+                                            <td>@Model.PQStudioAptCount</td>
                                         </tr>
                                         <tr>
                                             <td>4M - 6M</td>
-                                            <td>@Model.OneBedRmCount</td>
+                                            <td>@Model.PQOneBedRmCount</td>
                                         </tr>
                                         <tr>
                                             <td>6M - 8M</td>
-                                            <td>@Model.TwoBedRmCount</td>
+                                            <td>@Model.PQTwoBedRmCount</td>
                                         </tr>
                                         <tr>
                                             <td>8M - 12M</td>
-                                            <td>@Model.ThreeBedRmCount</td>
+                                            <td>@Model.PQThreeBedRmCount</td>
                                         </tr>
                                         <tr>
                                             <td>ABOVE 15M</td>
-                                            <td>@Model.FourBedRmDuplexCount</td>
+                                            <td>@Model.PQFourBedRmDuplexCount</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>@Model.PQTotalCount</th>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
                         </div>
@@ -121,7 +141,8 @@
                                         </tr>
                                         <tr>
                                             <td>8.3M</td>
-                                            <td>@Model.ChoiceAffordabilityMatchTwoBedRmCount
+                                            <td>
+                                                @Model.ChoiceAffordabilityMatchTwoBedRmCount
                                             </td>
                                         </tr>
                                         <tr>
@@ -132,13 +153,27 @@
                                             <td>15M</td>
                                             <td>@Model.ChoiceAffordabilityMatchFourBedDuplexCount</td>
                                         </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                     </tbody>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>@Model.ChoiceAffordabilityMatchTotalCount</th>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <a href="@Url.Action("OffTakersAnalysisQuery","OffTakers")" class="btn btn-primary btn-large">Generate Report</a>
+    </div>
+</div>
+    

@@ -29,5 +29,6 @@ namespace ValueChain.ViewModels
         public int ChoiceAffordabilityMatchFourBedDuplexCount { get; set; }
         public int ChoiceAffordabilityMatchTotalCount { get; set; }
         public int TotalCount { get; set; }
+        public int PQTotalCount { get; set; }
     }          
 }              

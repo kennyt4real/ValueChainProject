@@ -12,7 +12,7 @@
         <div class="card">
             <div class="header">
                 <h2>Offtakers Table <small>Off takers List</small> </h2>
-                <a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-user"></i>&nbsp;ADD OFFTAKER</a>
+                @*<a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-user"></i>&nbsp;ADD OFFTAKER</a>*@
                 <a href="#" onclick="Upload()" class="btn btn-primary"><i class="icon-docs"></i>&nbsp;UPLOAD OFFTAKERS</a>
             </div>
             <div class="body">
@@ -49,6 +49,17 @@
             <div class="modal-footer">
                 <button id="btnsubmit" type="button" class="btn btn-primary">SAVE CHANGES</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="defaultModal2" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Offtaker</h4>
+            </div>
+            <div id="myModalDivBody2" class="modal-body">
             </div>
         </div>
     </div>
@@ -117,21 +128,21 @@
 
     });
     function Edit(offTakerId) {
-        var url = "/Drugs/Save?id=" + drugId;
+        var url = "/OffTakers/Save?id=" + offTakerId;
         $('#myModalDivBody').load(url,
             function () {
                 $('#defaultModal').modal('show');
             });
     }
     function Delete(offTakerId) {
-        var url = "/Drugs/Delete?id=" + drugId;
+        var url = "/OffTakers/Delete?id=" + drugId;
         $('#myModalDivBody').load(url,
             function () {
                 $('#defaultModal').modal("show");
             });
     }
     function myFunction() {
-        var url = "/OffTakers/Create";
+        var url = "/OffTakers/Save";
         $('#myModalDivBody').load(url,
             function () {
                 $('#defaultModal').modal("show");
@@ -139,9 +150,9 @@
     }
     function Upload() {
         var url = "/OffTakers/UploadOffTakers";
-        $('#myModalDivBody').load(url,
+        $('#myModalDivBody2').load(url,
             function () {
-                $('#defaultModal').modal('show');
+                $('#defaultModal2').modal('show');
             });
     };
 
